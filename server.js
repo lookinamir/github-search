@@ -30,15 +30,15 @@ app.get('/users', async (req, res) => {
   let per_page = req.query.perPage || 10;
   let page = req.query.page || 1;
 
-  // require q query param, otherwise throw error
-  let { q } = req.query;
+  // require user query param, otherwise throw error
+  let { userSearch } = req.query;
 
   try {
     const response = await github.get(url, {
       params: {
         per_page,
         page,
-        q,
+        q: userSearch,
       },
     });
 
