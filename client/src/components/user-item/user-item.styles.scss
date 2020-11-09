@@ -1,0 +1,17 @@
+.user-item-container {
+  display: flex;
+  margin-bottom: 10px;
+
+  .row-number {
+    padding: 10px;
+  }
+
+  .avatar {
+    width: 32px;
+    padding: 5px;
+  }
+
+  .username {
+    padding: 10px;
+  }
+}

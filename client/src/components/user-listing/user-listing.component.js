@@ -1,13 +1,17 @@
 import React from 'react';
 
-const UserListing = ({ users }) => (
+import UserItem from '../user-item/user-item.component';
+
+const UserListing = ({ users, rowStart }) => (
   <div className="user-listing-container">
-    <h3>User Listing {users.length}</h3>
-    <ul>
-      {users.map((user) => (
-        <li key={user.id}>{user.login}</li>
-      ))}
-    </ul>
+    {users.map((user, row) => (
+      <UserItem
+        key={row}
+        rowNumber={row + rowStart}
+        username={user.login}
+        avatarUrl={user.avatar_url}
+      />
+    ))}
   </div>
 );
 

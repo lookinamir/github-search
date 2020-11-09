@@ -1,0 +1,14 @@
+.repository-item {
+  border-bottom: 1px solid #CCC;
+
+  .repo-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: -20px;
+  }
+
+  p {
+    padding: 0px 0px 15px 15px;
+  }
+}
