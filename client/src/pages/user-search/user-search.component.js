@@ -17,15 +17,21 @@ const UserSearch = () => {
   const [data, setData] = useState([]);
   const [urlParams, setUrlParams] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
-      if (!urlParams.length) return;
+      if (!searchValue.length) return;
+      setIsError(false);
       setIsLoading(true);
 
-      const results = await api.get(`/?${urlParams}`);
+      try {
+        const results = await api.get(`/?${urlParams}`);
+        setData(results.data.items);
+      } catch (error) {
+        setIsError(true);
+      }
 
-      setData(results.data.items);
       setIsLoading(false);
     };
 
@@ -56,10 +62,14 @@ const UserSearch = () => {
         <FormInput type="search" label="User" handleChange={handleChange} />
         <button type="submit">Search</button>
       </form>
-      {isLoading ? <div>Loading...</div> : null}
+
+      {isError && <div>Unable to retrieve users</div>}
+
+      {isLoading && <div>Loading...</div>}
+
       {data.length ? (
         <div>
-          <h3>User's matching "{searchValue}"</h3>
+          <h3>Users matching "{searchValue}"</h3>
           <UserListing
             users={data}
             rowStart={(page - 1) * RECORDS_PER_PAGE + 1}

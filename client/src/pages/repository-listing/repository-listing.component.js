@@ -17,15 +17,23 @@ const RepositoryListing = () => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const fetchRepositories = async () => {
+      if (!username.length) return;
       setIsLoading(true);
-      const response = await api.get(
-        `/user/${username}/repositories?page=${page}&perPage=${RECORDS_PER_PAGE}`
-      );
+      setIsError(false);
 
-      setData(response.data.items);
+      try {
+        const response = await api.get(
+          `/user/${username}/repositories?page=${page}&perPage=${RECORDS_PER_PAGE}`
+        );
+        setData(response.data.items);
+      } catch (error) {
+        setIsError(true);
+      }
+
       setIsLoading(false);
     };
 
@@ -38,6 +46,9 @@ const RepositoryListing = () => {
         <FaAngleLeft /> Lookup another user
       </Link>
       <h3>Top Repositories for {username}</h3>
+
+      {isError && <div>Unable to retrieve repositories</div>}
+
       {isLoading ? (
         <div>Loading...</div>
       ) : (
