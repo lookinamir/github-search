@@ -29,3 +29,16 @@ describe('Homepage', () => {
     expect(label).toEqual('User:');
   });
 });
+
+describe('User lookup form', () => {
+  beforeEach(async () => {
+    await page.type('form input[type="search"]', 'Facebook');
+    await page.click('form button[type="submit"]');
+  });
+  test('submitting search value displays results', async () => {
+    await page.waitFor('.user-listing-container');
+
+    const title = await page.$eval('h3', (e) => e.innerHTML);
+    expect(title).toEqual('Users matching "Facebook"');
+  });
+});
